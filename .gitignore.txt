@@ -1,0 +1,10 @@
+# Ignore les fichiers et répertoires de Visual Studio
+.vs/
+
+# Ignore les répertoires de build
+bin/
+obj/
+
+# Ignore d'autres fichiers temporaires
+*.bak
+*.log
