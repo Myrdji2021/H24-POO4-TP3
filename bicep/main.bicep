@@ -19,7 +19,7 @@ var apps = [
     {
         spName: 'tardi1'
         webApps: ['mvc', 'apiinteret']
-        miseAEchelle: 'Auto'
+        miseAEchelle: 'Non'
     }
     {
         spName: 'tardi2'
