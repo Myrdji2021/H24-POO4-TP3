@@ -8,7 +8,6 @@ param sqlServerName string
 
 param sqlAdminLogin string
 
-param spName string
 
 @minLength(10)
 @maxLength(20)
