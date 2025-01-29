@@ -8,7 +8,6 @@ param sqlServerName string
 
 param sqlAdminLogin string
 
-param webAppNames string
 
 
 @minLength(10)
