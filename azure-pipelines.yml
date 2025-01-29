@@ -14,9 +14,9 @@ variables:
   resourceGroupName: 'rg-tp3-devops'
   location: 'canadacentral'
   templateFile: '**/main.bicep'
-  webAppNameDev: 'webapp-a24-dev-tp3'
-  webAppNameProd : 'webapp-a24-prod-tp3'
-  sku: 'F1'
+  webAppNameDev: '["mvc", "apiinteret"]'
+  webAppNameProd : '["apiassurance", "apicredit"]'
+  spsku: 'F1'
 
 
 steps:
@@ -28,7 +28,7 @@ steps:
     inlineScript: |
       az --version
       az group create --name $(resourceGroupName) --location $(location)
-      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters appName=$(webAppNameDev) appSku=$(sku)
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters webAppNames=$(webAppNameDev) spSku=$(sku)
   displayName: 'Environement de Dev'
   
 - task: AzureCLI@2
@@ -37,5 +37,5 @@ steps:
     scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
-      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters appName=$(webAppNameProd) appSku=$(sku)
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters webAppName=$(webAppNameProd) spSku=$(sku)
   displayName: 'Environement de production'
