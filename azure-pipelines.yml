@@ -38,5 +38,5 @@ steps:
     scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
-      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters spName=$(spName) location=$(location) webAppNames='$(webAppNameProd)' spSku=$(spSku) location=$(location)
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters spName=$(spName) location=$(location) webAppNames='$(webAppNameProd)' spSku=$(spSku) 
   displayName: 'Environement de production'
