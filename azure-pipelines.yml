@@ -28,7 +28,7 @@ steps:
     inlineScript: |
       az --version
       az group create --name $(resourceGroupName) --location $(location)
-      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters appName='$(webAppNameDev)' spSku=$(sku) 
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters spName='$(webAppNameDev)' spSku=$(sku) 
   displayName: 'Environement de Dev'
   
 - task: AzureCLI@2
@@ -37,5 +37,5 @@ steps:
     scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
-      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) -- --parameters appName='$(webAppNameProd)' spSku=$(sku) 
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) -- --parameters spName='$(webAppNameProd)' spSku=$(sku) 
   displayName: 'Environement de production'
