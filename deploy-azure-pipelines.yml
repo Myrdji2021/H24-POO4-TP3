@@ -14,8 +14,8 @@ variables:
   resourceGroupNameDev: 'rg-tp3-deploy-dev'
   resourceGroupNameProd: 'rg-tp3-deply-prod'
   location: 'canadacentral'
-  templateFile: 'bicep/main.bicep' # Chemin relatif exact
-  sku: 'F1' # Plan tarifaire gratuit
+  templateFile: 'bicep/main.bicep' 
+  sku: 'F1' 
   sqlAdminLogin: 'adminuser'
   sqlAdminPassword: 'P@ssw0rd123!' 
   storageNameDev: 'devstorage01'
