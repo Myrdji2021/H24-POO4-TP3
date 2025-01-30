@@ -17,7 +17,7 @@ variables:
   webAppNameDev: '["mvc","apiinteret"]'
   webAppNameProd : '["apiassurance","apicredit"]'
   sku: 'F1'
-  sqlAdminLogin: 'junior.myrtil'
+  sqlAdminLogin: ''
   sqlAdminPassword : ''
   StorageNameDev : 'DevStorage'
   StorageNameProd: 'ProdStorage'
