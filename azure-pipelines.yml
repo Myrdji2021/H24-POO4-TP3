@@ -19,7 +19,7 @@ variables:
   spNameProd: 'tardi2'
   sku: 'F1'
   sqlAdminLogin: 'adminuser'
-  sqlAdminPassword : $(sqlAdminPassword)
+  sqlAdminPassword : $(Password@123!)
   storageNameDev : 'devtoragetardi'
   storageNameProd: 'prodstoragetardi'
   sqlServerNameDev : 'devsqlserver'
@@ -39,7 +39,7 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           az --version
-          az group create --name $(resourceGroupName) --location $(location)
+          az group create --name $(resourceGroupDev) --location $(location)
           az deployment group create --resource-group $(resourceGroupDev) --template-file $(templateFile) --parameters location=$(location) spName='$(spNameDev)' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameDev) sqlServerName=$(sqlServerNameDev)
       displayName: 'Environnement de Dev'
 
