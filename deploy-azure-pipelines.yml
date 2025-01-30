@@ -12,7 +12,7 @@ pool:
 variables:
   serviceConnection: 'sc-azure'
   resourceGroupNameDev: 'rg-tp3-deploy-dev'
-  resourceGroupNameProd: 'rg-tp3-deply-prod'
+  resourceGroupNameProd: 'rg-tp3-deploy-prod'
   location: 'canadacentral'
   templateFile: 'bicep/main.bicep' 
   sku: 'F1' 
@@ -105,7 +105,7 @@ stages:
   condition: succeeded()
   jobs:
   - deployment: Deploy_MVC_Prod
-    environment: 'Production' # Environnement avec approbation
+    environment: 'Production' 
     strategy:
       runOnce:
         deploy:
