@@ -55,7 +55,7 @@ stages:
 
 - stage: Deploy_MVC_Dev
   displayName: 'Déployer l\'application MVC en Dev'
-  dependsOn: Deploy_APIs_Dev
+   dependsOn: Deploy_APIs_Dev
   condition: succeeded()
   jobs:
   - job: Deploy_MVC_Dev
@@ -71,7 +71,7 @@ stages:
 
 - stage: Deploy_APIs_Prod
   displayName: 'Déployer les API en Production'
-  dependsOn: Deploy_MVC_Dev
+    dependsOn: Deploy_MVC_Dev
   condition: succeeded()
   jobs:
   - deployment: Deploy_APIs_Prod
@@ -99,7 +99,7 @@ stages:
             displayName: 'Déployer API 2 en Production'
 
 - stage: Deploy_MVC_Prod
-  displayName: 'Déployer l\'application MVC en Production'
+  displayName: 'Déployer l'application MVC en Production'
   dependsOn: Deploy_APIs_Prod
   condition: succeeded()
   jobs:
