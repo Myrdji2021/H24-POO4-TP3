@@ -15,6 +15,8 @@ variables:
   resourceGroupNameProd: 'rg-tp3-deploy-prod'
   location: 'canadacentral'
   templateFile: 'bicep/main.bicep' 
+  webAppNameDev: '["mvc","apiinteret","apiassurance","apicredit"]'
+  webAppNameProd : '["mvc","apiinteret","apiassurance","apicredit"]'
   sku: 'F1' 
   sqlAdminLogin: 'adminuser'
   sqlAdminPassword: 'P@ssw0rd123!' 
@@ -30,9 +32,6 @@ stages:
   - job: Deploy_API_1_Dev
     displayName: 'Déployer API 1 en Dev'
     steps:
-    - script: |
-        ls -R $(Build.SourcesDirectory)
-      displayName: 'Afficher la structure du répertoire'
     - task: AzureCLI@2
       inputs:
         azureSubscription: $(serviceConnection)
