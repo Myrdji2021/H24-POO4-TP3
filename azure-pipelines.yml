@@ -13,7 +13,7 @@ variables:
   serviceConnection : 'sc-azure'
   resourceGroupName: 'rg-tp3-devops'
   location: 'canadacentral'
-  templateFile: 'bicep/main.bicep'
+  templateFile: '**bicep/main.bicep'
   webAppNameDev: '["mvc","apiinteret"]'
   webAppNameProd : '["apiassurance","apicredit"]'
   sku: 'F1'
