@@ -11,15 +11,15 @@ pool:
 
 variables:
   serviceConnection: 'sc-azure'
-  resourceGroupNameDev: 'rg-tp3-dev'
-  resourceGroupNameProd: 'rg-tp3-prod'
+  resourceGroupNameDev: 'rg-tp3-deploy-dev'
+  resourceGroupNameProd: 'rg-tp3-deply-prod'
   location: 'canadacentral'
   templateFile: 'bicep/main.bicep' # Chemin relatif exact
   sku: 'F1' # Plan tarifaire gratuit
   sqlAdminLogin: 'adminuser'
-  sqlAdminPassword: 'P@ssw0rd123!' # Mot de passe complexe
+  sqlAdminPassword: 'P@ssw0rd123!' 
   storageNameDev: 'devstorage01'
-  storageNameProd: 'prodstorage01tp3' # Nom unique pour le compte de stockage Prod
+  storageNameProd: 'prodstorage01tp3' 
   sqlServerNameDev: 'devsqlserver'
   sqlServerNameProd: 'prodsqlserver'
 
