@@ -6,6 +6,8 @@ param location string
 
 param sqlServerName string
 
+param databaseNames array
+
 param sqlAdminLogin string
 param  spName string
 param spSku string ='F1'
