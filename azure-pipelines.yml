@@ -11,14 +11,15 @@ pool:
  
 variables:
   serviceConnection : 'sc-azure'
-  resourceGroupName: 'rg-tp3-devops'
+  resourceGroupDev: 'rg-tardi-dev'
+  resourceGroupProd: 'rg-tardi-prod'
   location: 'canadacentral'
-  templateFile: '**bicep/main.bicep'
-  webAppNameDev: '["mvc","apiinteret"]'
-  webAppNameProd : '["apiassurance","apicredit"]'
+  templateFile: '**/main.bicep'
+  spNameDev: 'tardi1'
+  spNameProd: 'tardi2'
   sku: 'F1'
   sqlAdminLogin: 'adminuser'
-  sqlAdminPassword : 'P@ssw0rd2024!'
+  sqlAdminPassword : $(sqlAdminPassword)
   storageNameDev : 'devtoragetardi'
   storageNameProd: 'prodstoragetardi'
   sqlServerNameDev : 'devsqlserver'
@@ -27,7 +28,7 @@ variables:
 
 stages:
 - stage: Deploy_Dev
-  displayName: 'Déployer en Dev'
+  displayName: 'Deployer en Dev'
   jobs:
   - job: Deploy
     steps:
@@ -39,11 +40,11 @@ stages:
         inlineScript: |
           az --version
           az group create --name $(resourceGroupName) --location $(location)
-          az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters location=$(location) spName='$(webAppNameDev)' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameDev) sqlServerName=$(sqlServerNameDev)
+          az deployment group create --resource-group $(resourceGroupDev) --template-file $(templateFile) --parameters location=$(location) spName='$(spNameDev)' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameDev) sqlServerName=$(sqlServerNameDev)
       displayName: 'Environnement de Dev'
 
 - stage: Deploy_Prod
-  displayName: 'Déployer en Production'
+  displayName: 'Deployer en Production'
   dependsOn: Deploy_Dev
   condition: succeeded()
   jobs:
@@ -59,7 +60,7 @@ stages:
               scriptType: bash
               scriptLocation: inlineScript
               inlineScript: |
-                az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters location=$(location) spName='$(webAppNameProd)' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd)
+                az deployment group create --resource-group $(resourceGroupProd) --template-file $(templateFile) --parameters location=$(location) spName='$(spNameProd)' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd)
             displayName: 'Environnement de production'
 
 
