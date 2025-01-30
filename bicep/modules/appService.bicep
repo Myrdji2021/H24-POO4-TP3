@@ -5,7 +5,7 @@ param spName string
 ])
 param location string
 param webAppNames array
-param spSku string ='F1'
+param spSku string 
 
 resource servicePlan 'Microsoft.Web/serverfarms@2024-04-01' = {
   name: 'sp-${spName}'
