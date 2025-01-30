@@ -17,12 +17,12 @@ variables:
   webAppNameDev: '["mvc","apiinteret"]'
   webAppNameProd : '["apiassurance","apicredit"]'
   sku: 'F1'
-  sqlAdminLogin: ''
+  sqlAdminLogin: 'adminuser'
   sqlAdminPassword : 'junior12345'
   storageNameDev : 'devtorage01'
   storageNameProd: 'prodStorage02'
-  sqlServerNameDev : 'devserver01'
-  sqlServerNameProd: 'prodserver02'
+  sqlServerNameDev : 'dev'
+  sqlServerNameProd: 'prod'
 
 
 steps:
