@@ -20,7 +20,7 @@ variables:
   sqlAdminLogin: 'adminuser'
   sqlAdminPassword : 'P@ssw0rd2024!'
   storageNameDev : 'devtorage01'
-  storageNameProd: 'prodStorage02'
+  storageNameProd: 'prodstorage02'
   sqlServerNameDev : 'devsqlserver'
   sqlServerNameProd: 'prodsqlserver'
 
