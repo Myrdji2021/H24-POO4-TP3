@@ -19,10 +19,10 @@ variables:
   sku: 'F1'
   sqlAdminLogin: ''
   sqlAdminPassword : 'junior12345'
-  storageNameDev : 'DevStorage'
-  storageNameProd: 'ProdStorage'
-  sqlServerNameDev : 'DevServer'
-  sqlServerNameProd: 'ProdServer'
+  storageNameDev : 'DevStorage01'
+  storageNameProd: 'ProdStorage02'
+  sqlServerNameDev : 'DevServer01'
+  sqlServerNameProd: 'ProdServer02'
 
 
 steps:
