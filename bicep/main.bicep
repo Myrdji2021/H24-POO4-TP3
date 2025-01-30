@@ -7,7 +7,7 @@ param location string
 param sqlServerName string
 
 param sqlAdminLogin string
-
+param  spName string
 
 
 @minLength(10)
