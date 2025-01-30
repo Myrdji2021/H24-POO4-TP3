@@ -75,7 +75,7 @@ stages:
   condition: succeeded()
   jobs:
   - deployment: Deploy_APIs_Prod
-    environment: 'Production' # Environnement avec approbation
+    environment: 'Production' 
     strategy:
       runOnce:
         deploy:
