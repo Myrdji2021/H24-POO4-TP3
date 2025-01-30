@@ -19,7 +19,7 @@ variables:
   spNameProd: 'tardi2'
   sku: 'F1'
   sqlAdminLogin: 'adminuser'
-  sqlAdminPassword : $(Password@123!)
+  sqlAdminPassword : 'P@ssw0rd2024!'
   storageNameDev : 'devtoragetardi'
   storageNameProd: 'prodstoragetardi'
   sqlServerNameDev : 'devsqlserver'
