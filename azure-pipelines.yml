@@ -19,8 +19,8 @@ variables:
   sku: 'F1'
   sqlAdminLogin: 'adminuser'
   sqlAdminPassword : 'P@ssw0rd2024!'
-  storageNameDev : 'devtorage01'
-  storageNameProd: 'prodstorage01'
+  storageNameDev : 'devtoragetardi'
+  storageNameProd: 'prodstoragetardi'
   sqlServerNameDev : 'devsqlserver'
   sqlServerNameProd: 'prodsqlserver'
 
