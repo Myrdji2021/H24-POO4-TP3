@@ -4,31 +4,117 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- master
+- none
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: ubuntu-latest
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+  serviceConnection: 'sc-azure'
+  resourceGroupNameDev: 'rg-tp3-dev'
+  resourceGroupNameProd: 'rg-tp3-prod'
+  location: 'canadacentral'
+  templateFile: 'bicep/main.bicep' # Chemin relatif exact
+  sku: 'F1' # Plan tarifaire gratuit
+  sqlAdminLogin: 'adminuser'
+  sqlAdminPassword: 'P@ssw0rd123!' # Mot de passe complexe
+  storageNameDev: 'devstorage01'
+  storageNameProd: 'prodstorage01tp3' # Nom unique pour le compte de stockage Prod
+  sqlServerNameDev: 'devsqlserver'
+  sqlServerNameProd: 'prodsqlserver'
 
-steps:
-- task: NuGetToolInstaller@1
+stages:
+- stage: Deploy_APIs_Dev
+  displayName: 'Déployer les API en Dev'
+  jobs:
+  - job: Deploy_API_1_Dev
+    displayName: 'Déployer API 1 en Dev'
+    steps:
+    - script: |
+        ls -R $(Build.SourcesDirectory)
+      displayName: 'Afficher la structure du répertoire'
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: $(serviceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az deployment group create --resource-group $(resourceGroupNameDev) --template-file $(templateFile) --parameters location=$(location) spName='api1-dev' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameDev) sqlServerName=$(sqlServerNameDev)
+      displayName: 'Déployer API 1'
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+  - job: Deploy_API_2_Dev
+    displayName: 'Déployer API 2 en Dev'
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: $(serviceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az deployment group create --resource-group $(resourceGroupNameDev) --template-file $(templateFile) --parameters location=$(location) spName='api2-dev' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameDev) sqlServerName=$(sqlServerNameDev)
+      displayName: 'Déployer API 2'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+- stage: Deploy_MVC_Dev
+  displayName: 'Déployer l\'application MVC en Dev'
+  dependsOn: Deploy_APIs_Dev
+  condition: succeeded()
+  jobs:
+  - job: Deploy_MVC_Dev
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: $(serviceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az deployment group create --resource-group $(resourceGroupNameDev) --template-file $(templateFile) --parameters location=$(location) spName='mvc-dev' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameDev) sqlServerName=$(sqlServerNameDev)
+      displayName: 'Déployer l\'application MVC'
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+- stage: Deploy_APIs_Prod
+  displayName: 'Déployer les API en Production'
+  dependsOn: Deploy_MVC_Dev
+  condition: succeeded()
+  jobs:
+  - deployment: Deploy_APIs_Prod
+    environment: 'Production' # Environnement avec approbation
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: $(serviceConnection)
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az deployment group create --resource-group $(resourceGroupNameProd) --template-file $(templateFile) --parameters location=$(location) spName='api1-prod' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd)
+            displayName: 'Déployer API 1 en Production'
+
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: $(serviceConnection)
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az deployment group create --resource-group $(resourceGroupNameProd) --template-file $(templateFile) --parameters location=$(location) spName='api2-prod' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd)
+            displayName: 'Déployer API 2 en Production'
+
+- stage: Deploy_MVC_Prod
+  displayName: 'Déployer l\'application MVC en Production'
+  dependsOn: Deploy_APIs_Prod
+  condition: succeeded()
+  jobs:
+  - deployment: Deploy_MVC_Prod
+    environment: 'Production' # Environnement avec approbation
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: $(serviceConnection)
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az deployment group create --resource-group $(resourceGroupNameProd) --template-file $(templateFile) --parameters location=$(location) spName='mvc-prod' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd)
+            displayName: 'Déployer l\'application MVC en Production'
