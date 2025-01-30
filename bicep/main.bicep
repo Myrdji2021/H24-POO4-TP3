@@ -8,6 +8,7 @@ param sqlServerName string
 
 param sqlAdminLogin string
 param  spName string
+param spSku string ='F1'
 
 
 @minLength(10)
