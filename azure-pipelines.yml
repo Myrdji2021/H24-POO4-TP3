@@ -25,23 +25,42 @@ variables:
   sqlServerNameProd: 'prodsqlserver'
 
 
-steps:
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: $(serviceConnection)
-    scriptType: bash
-    scriptLocation: inlineScript
-    inlineScript: |
-      az --version
-      az group create --name $(resourceGroupName) --location $(location)
-      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters location=$(location) spName=$'$(webAppNameDev)' spSku=$(sku) sqlAdminLogin="$(sqlAdminLogin)" sqlAdminPassword="$(sqlAdminPassword)" storageName=$(storageNameDev) sqlServerName=$(sqlServerNameDev) 
-  displayName: 'Environement de Dev'
-  
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: $(serviceConnection)
-    scriptType: bash
-    scriptLocation: inlineScript
-    inlineScript: |
-      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters location=$(location) spName='$(webAppNameProd)' spSku=$(sku) sqlAdminLogin="$(sqlAdminLogin)" sqlAdminPassword="$(sqlAdminPassword)" storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd)
-  displayName: 'Environement de production'
+stages:
+- stage: Deploy_Dev
+  displayName: 'Déployer en Dev'
+  jobs:
+  - job: Deploy
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: $(serviceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az --version
+          az group create --name $(resourceGroupName) --location $(location)
+          az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters location=$(location) spName='$(webAppNameDev)' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameDev) sqlServerName=$(sqlServerNameDev)
+      displayName: 'Environnement de Dev'
+
+- stage: Deploy_Prod
+  displayName: 'Déployer en Production'
+  dependsOn: Deploy_Dev
+  condition: succeeded()
+  jobs:
+  - deployment: Deploy_Prod
+    environment: 'Production' 
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: $(serviceConnection)
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters location=$(location) spName='$(webAppNameProd)' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd)
+            displayName: 'Environnement de production'
+
+
+
