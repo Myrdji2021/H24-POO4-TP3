@@ -6,7 +6,6 @@ param location string
 
 param sqlServerName string
 
-param databaseNames array
 
 param sqlAdminLogin string
 
