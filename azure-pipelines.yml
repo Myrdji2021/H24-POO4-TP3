@@ -24,6 +24,11 @@ variables:
   storageNameProd: 'prodstoragetardi01'
   sqlServerNameDev : 'devsqlserver'
   sqlServerNameProd: 'prodsqlserver'
+  databaseNames: '["mvc", "assurance", "cartecredits"]'
+  startIpAddress: '0.0.0.0'
+  endIpAddress: '255.255.255.255'
+  DTUmin: 5
+  DTUmax: 5
 
 
 stages:
@@ -40,7 +45,7 @@ stages:
         inlineScript: |
           az --version
           az group create --name $(resourceGroupDev) --location $(location)
-          az deployment group create --resource-group $(resourceGroupDev) --template-file $(templateFile) --parameters location=$(location) spName='$(spNameDev)' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameDev) sqlServerName=$(sqlServerNameDev)
+          az deployment group create --resource-group $(resourceGroupDev) --template-file $(templateFile) --parameters location=$(location) spName=$(spNameDev) spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameDev) sqlServerName=$(sqlServerNameDev) databaseNames=$(databaseNames) startIpAddress='$(startIpAddress) endIpAddress='$(endIpAddress) DTUmin=$(DTUmin) DTUmax=$(DTUmax)
       displayName: 'Environnement de Dev'
 
 - stage: Deploy_Prod
@@ -60,7 +65,7 @@ stages:
               scriptType: bash
               scriptLocation: inlineScript
               inlineScript: |
-                az deployment group create --resource-group $(resourceGroupProd) --template-file $(templateFile) --parameters location=$(location) spName='$(spNameProd)' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd)
+                az deployment group create --resource-group $(resourceGroupProd) --template-file $(templateFile) --parameters location=$(location) spName='$(spNameProd)' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd) databaseNames=$(databaseNames) startIpAddress='$(startIpAddress) endIpAddress='$(endIpAddress) DTUmin=$(DTUmin) DTUmax=$(DTUmax)
             displayName: 'Environnement de production'
 
 
