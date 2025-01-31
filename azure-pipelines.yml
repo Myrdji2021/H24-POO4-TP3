@@ -51,11 +51,11 @@ stages:
         deploy:
           steps:
           - checkout: self
-            displayName: 'Checkout du dépôt (Production)'
+            displayName: 'Checkout du depot (Production)'
 
           - script: |
-              echo "Contenu du répertoire :"
-              ls -R  # Affiche la structure des répertoires
+              echo "verifie le contenu du repertoire :"
+              ls -R  # Affiche la structure des repertoires
             displayName: 'Afficher la structure du répertoire'
 
           - task: AzureCLI@2
