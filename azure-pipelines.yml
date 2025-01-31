@@ -21,8 +21,6 @@ variables:
   storageNameProd: 'prodstoragetardi01'
   sqlServerNameDev : 'devsqlserver'
   sqlServerNameProd: 'prodsqlserver'
- 
-
 
 stages:
 - stage: Deploy_Dev
@@ -51,7 +49,15 @@ stages:
     strategy:
       runOnce:
         deploy:
-         steps:
+          steps:
+          - checkout: self
+            displayName: 'Checkout du dépôt (Production)'
+
+          - script: |
+              echo "Contenu du répertoire :"
+              ls -R  # Affiche la structure des répertoires
+            displayName: 'Afficher la structure du répertoire'
+
           - task: AzureCLI@2
             inputs:
               azureSubscription: $(serviceConnection)
@@ -60,6 +66,3 @@ stages:
               inlineScript: |
                 az deployment group create --resource-group $(resourceGroupProd) --template-file $(templateFile) --parameters location=$(location) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd) 
             displayName: 'Environnement de production'
-
-
-
