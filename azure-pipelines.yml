@@ -15,9 +15,6 @@ variables:
   resourceGroupProd: 'rg-tardi-prod'
   location: 'canadacentral'
   templateFile: 'bicep/main.bicep'
-  spNameDev: 'tardi1'
-  spNameProd: 'tardi2'
-  sku: 'F1'
   sqlAdminLogin: 'adminuser'
   sqlAdminPassword : 'P@ssw0rd2024!'
   storageNameDev : 'devtoragetardi01'
@@ -44,7 +41,7 @@ stages:
         inlineScript: |
           az --version
           az group create --name $(resourceGroupDev) --location $(location)
-          az deployment group create --resource-group $(resourceGroupDev) --template-file $(templateFile) --parameters location=$(location) spName=$(spNameDev) spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameDev) sqlServerName=$(sqlServerNameDev) startIpAddress='$(startIpAddress) endIpAddress='$(endIpAddress) DTUmin=$(DTUmin) DTUmax=$(DTUmax)
+          az deployment group create --resource-group $(resourceGroupDev) --template-file $(templateFile) --parameters location=$(location) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameDev) sqlServerName=$(sqlServerNameDev) startIpAddress='$(startIpAddress) endIpAddress='$(endIpAddress) DTUmin=$(DTUmin) DTUmax=$(DTUmax)
       displayName: 'Environnement de Dev'
 
 - stage: Deploy_Prod
@@ -64,7 +61,7 @@ stages:
               scriptType: bash
               scriptLocation: inlineScript
               inlineScript: |
-                az deployment group create --resource-group $(resourceGroupProd) --template-file $(templateFile) --parameters location=$(location) spName='$(spNameProd)' spSku=$(sku) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd) startIpAddress='$(startIpAddress) endIpAddress='$(endIpAddress) DTUmin=$(DTUmin) DTUmax=$(DTUmax)
+                az deployment group create --resource-group $(resourceGroupProd) --template-file $(templateFile) --parameters location=$(location) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd) startIpAddress='$(startIpAddress) endIpAddress='$(endIpAddress) DTUmin=$(DTUmin) DTUmax=$(DTUmax)
             displayName: 'Environnement de production'
 
 
