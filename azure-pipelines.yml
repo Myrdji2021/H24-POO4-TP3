@@ -14,7 +14,7 @@ variables:
   resourceGroupDev: 'rg-tardi-dev'
   resourceGroupProd: 'rg-tardi-prod'
   location: 'canadacentral'
-  templateFile: '$(Build.SourcesDirectory)/bicep/main.bicep'
+  templateFile: 'bicep/main.bicep'
   sqlAdminLogin: 'adminuser'
   sqlAdminPassword : 'P@ssw0rd2024!'
   storageNameDev : 'devtoragetardi01'
