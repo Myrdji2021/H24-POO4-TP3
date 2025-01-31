@@ -58,7 +58,7 @@ stages:
               scriptType: bash
               scriptLocation: inlineScript
               inlineScript: |
-                az deployment group create --resource-group $(resourceGroupProd) --template-file '$(System.DefaultWorkingDirectory)/bicep/main.bicep' --parameters location=$(location) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd) 
+                az deployment group create --resource-group $(resourceGroupProd) --template-file $(templateFile) --parameters location=$(location) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd) 
             displayName: 'Environnement de production'
 
 
