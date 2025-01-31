@@ -14,7 +14,7 @@ variables:
   resourceGroupDev: 'rg-tardi-dev'
   resourceGroupProd: 'rg-tardi-prod'
   location: 'canadacentral'
-  templateFile: '**/main.bicep'
+  templateFile: 'bicep/main.bicep'
   spNameDev: 'tardi1'
   spNameProd: 'tardi2'
   sku: 'F1'
