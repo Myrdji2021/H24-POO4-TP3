@@ -9,10 +9,6 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-  steps:
-  checkout : self
-  displayName : 'Checkout du depot'
-
 variables:
   serviceConnection : 'sc-azure'
   resourceGroupDev: 'rg-tardi-dev'
