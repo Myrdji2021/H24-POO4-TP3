@@ -51,7 +51,7 @@ stages:
     strategy:
       runOnce:
         deploy:
-          steps:
+         steps:
           - task: AzureCLI@2
             inputs:
               azureSubscription: $(serviceConnection)
