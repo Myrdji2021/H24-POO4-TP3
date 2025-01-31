@@ -21,10 +21,7 @@ variables:
   storageNameProd: 'prodstoragetardi01'
   sqlServerNameDev : 'devsqlserver'
   sqlServerNameProd: 'prodsqlserver'
-  startIpAddress: '0.0.0.0'
-  endIpAddress: '255.255.255.255'
-  DTUmin: 5
-  DTUmax: 5
+ 
 
 
 stages:
@@ -41,7 +38,7 @@ stages:
         inlineScript: |
           az --version
           az group create --name $(resourceGroupDev) --location $(location)
-          az deployment group create --resource-group $(resourceGroupDev) --template-file $(templateFile) --parameters location=$(location) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameDev) sqlServerName=$(sqlServerNameDev) startIpAddress='$(startIpAddress) endIpAddress='$(endIpAddress) DTUmin=$(DTUmin) DTUmax=$(DTUmax)
+          az deployment group create --resource-group $(resourceGroupDev) --template-file $(templateFile) --parameters location=$(location) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameDev) sqlServerName=$(sqlServerNameDev)
       displayName: 'Environnement de Dev'
 
 - stage: Deploy_Prod
@@ -61,7 +58,7 @@ stages:
               scriptType: bash
               scriptLocation: inlineScript
               inlineScript: |
-                az deployment group create --resource-group $(resourceGroupProd) --template-file $(templateFile) --parameters location=$(location) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd) startIpAddress='$(startIpAddress) endIpAddress='$(endIpAddress) DTUmin=$(DTUmin) DTUmax=$(DTUmax)
+                az deployment group create --resource-group $(resourceGroupProd) --template-file $(templateFile) --parameters location=$(location) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd) 
             displayName: 'Environnement de production'
 
 
