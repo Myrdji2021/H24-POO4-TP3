@@ -64,5 +64,7 @@ stages:
               scriptType: bash
               scriptLocation: inlineScript
               inlineScript: |
+                az --version
+                az group create --name $(resourceGroupProd) --location $(location)
                 az deployment group create --resource-group $(resourceGroupProd) --template-file $(templateFile) --parameters location=$(location) sqlAdminLogin=$(sqlAdminLogin) sqlAdminPassword=$(sqlAdminPassword) storageName=$(storageNameProd) sqlServerName=$(sqlServerNameProd) 
             displayName: 'Environnement de production'
